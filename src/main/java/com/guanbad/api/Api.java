@@ -26,7 +26,7 @@ public class Api {
 			
 			Team e = new Team();
 			e.setName("abc");
-			e.setPicture("pic");
+			e.setPicture("https://ipfs.io/ipfs/QmeakCg5GsUeEvLncZW8Q5EU56iyMaiLznefgaBabGc8Db");
 			e.setStarttime(Calendar.getInstance());
 			list.add(e);
 			
