@@ -3,7 +3,9 @@ package com.guanbad.api;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,8 +21,8 @@ public class Api {
 	@ResponseBody
 	public List<Team> list() {
 		ArrayList<Team> list = new ArrayList<Team>();
-		
-		for(int i=0;i<10;i++) {
+		RandomUtils rand = new RandomUtils();
+		for(int i=0;i<rand.nextInt(10,50);i++) {
 			
 			Team e = new Team();
 			e.setName("abc");
