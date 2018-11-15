@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Order(1)
 	public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
 		protected void configure(HttpSecurity http) throws Exception {
-			http.csrf().disable().antMatcher("/api/*").authorizeRequests().anyRequest().hasRole("USER").and()
+			http.csrf().disable().antMatcher("/guan/*").authorizeRequests().anyRequest().hasRole("USER").and()
 					.httpBasic();
 		}
 	}
