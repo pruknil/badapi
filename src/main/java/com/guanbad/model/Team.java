@@ -6,6 +6,7 @@ public class Team {
 	private String name;
 	private Calendar starttime;
 	private String picture;
+	private Court court;
 	public String getName() {
 		return name;
 	}
@@ -23,6 +24,12 @@ public class Team {
 	}
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+	public Court getCourt() {
+		return court;
+	}
+	public void setCourt(Court court) {
+		this.court = court;
 	}
 	
 }
