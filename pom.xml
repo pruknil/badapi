@@ -70,14 +70,12 @@
 		<dependency>
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-apt</artifactId>
-			<version>4.2.1</version>
-		</dependency>
+			</dependency>
 		<!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-mongodb -->
 		<dependency>
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-mongodb</artifactId>
-			<version>4.2.1</version>
-		</dependency>
+			</dependency>
 		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
 		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
 		<dependency>
