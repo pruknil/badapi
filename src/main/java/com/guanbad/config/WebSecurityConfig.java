@@ -13,23 +13,34 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().and().authorizeRequests().antMatchers("/", "/assets/**").permitAll().anyRequest().authenticated()
-				.and().formLogin().loginPage("/login").loginProcessingUrl("/j_spring_security_check")
-				.usernameParameter("j_username").passwordParameter("j_password").permitAll().and().logout()
-				.logoutUrl("/logout").permitAll();
+		http.csrf()
+		.and()
+		.authorizeRequests()
+		.antMatchers("/","/v2/api-docs", "/assets/**","/swagger-resources/**").permitAll()
+		.anyRequest().authenticated()
+		.and()
+		.formLogin().loginPage("/login")
+		.loginProcessingUrl("/j_spring_security_check")
+		.usernameParameter("j_username")
+		.passwordParameter("j_password").permitAll()
+		.and()
+		.logout().logoutUrl("/logout").permitAll();
 
 	}
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("badapi").password("{noop}password").roles("USER");
+		auth.inMemoryAuthentication()
+		.withUser("user")
+		.password("{noop}user")
+		.roles("USER");
 	}
 
 	@Configuration
 	@Order(1)
 	public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
 		protected void configure(HttpSecurity http) throws Exception {
-			http.csrf().disable().antMatcher("/guan/*").authorizeRequests().anyRequest().hasRole("USER").and()
+			http.csrf().disable().antMatcher("/api/**").authorizeRequests().anyRequest().hasRole("USER").and()
 					.httpBasic();
 		}
 	}
