@@ -1,8 +1,18 @@
 package com.guanbad.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
-public class Team {
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.mysema.query.annotations.QueryEntity;
+@QueryEntity
+@Document
+public class Team implements Serializable {
+	@Id
+	public ObjectId _id;
 	private String name;
 	private Calendar starttime;
 	private String picture;
@@ -30,6 +40,12 @@ public class Team {
 	}
 	public void setCourt(Court court) {
 		this.court = court;
+	}
+	public ObjectId get_id() {
+		return _id;
+	}
+	public void set_id(ObjectId _id) {
+		this._id = _id;
 	}
 	
 }

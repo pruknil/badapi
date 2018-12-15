@@ -13,7 +13,7 @@ import com.mongodb.ServerAddress;
 
 @Configuration
 @EnableMongoRepositories("com.guanbad.mongo")
-public class MongoGridFsTemplate  extends AbstractMongoConfiguration{
+public class MongoConfig  extends AbstractMongoConfiguration{
 	
 	@Value("${app.mongodb.host}")
 	private String mongoAddress; 
