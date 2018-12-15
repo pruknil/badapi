@@ -43,7 +43,7 @@ public class Api {
 		e.setPicture("https://ipfs.io/ipfs/QmeakCg5GsUeEvLncZW8Q5EU56iyMaiLznefgaBabGc8Db");
 		e.setStarttime(Calendar.getInstance());
 		Court court = new Court();
-		court.setAddress("ABC def ghi");
+		court.setVicinity("ABC def ghi");
 		e.setCourt(court);
 		return e;
 	}
