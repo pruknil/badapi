@@ -11,9 +11,17 @@ import com.mysema.query.annotations.QueryEntity;
 @QueryEntity
 @Document
 public class Team implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5589204835158316656L;
 	@Id
 	public ObjectId _id;
 	private String name;
+	private String contactNo;
+	private String description;
+	private String lineId;
+	private String facebook;
 	private Calendar starttime;
 	private String picture;
 	private Court court;
@@ -46,6 +54,30 @@ public class Team implements Serializable {
 	}
 	public void set_id(ObjectId _id) {
 		this._id = _id;
+	}
+	public String getContactNo() {
+		return contactNo;
+	}
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getLineId() {
+		return lineId;
+	}
+	public void setLineId(String lineId) {
+		this.lineId = lineId;
+	}
+	public String getFacebook() {
+		return facebook;
+	}
+	public void setFacebook(String facebook) {
+		this.facebook = facebook;
 	}
 	
 }

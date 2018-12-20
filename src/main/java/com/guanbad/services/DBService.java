@@ -18,8 +18,14 @@ public abstract class DBService<E> implements CrudService<E> {
 	QuerydslPredicateExecutor<E> searchRepo;
 	@Override
 	public E create(E obj) throws ServiceException {
-		E e = repository.save(obj);
-		return e;
+		E o = null ;
+		try {
+			o = repository.save(obj);
+		}catch(Exception e) {
+			throw new ServiceException();
+		}
+
+		return o;
 	}
 
 	@Override

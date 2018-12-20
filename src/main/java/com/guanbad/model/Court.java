@@ -23,6 +23,7 @@ public class Court implements Serializable {
 	private Double rating;
 	private Double lat;
 	private Double lng;
+	private Geo geo;
 	private String vicinity;
 	private String icon;
 	private LocalDateTime updateDate;
@@ -79,6 +80,12 @@ public class Court implements Serializable {
 	}
 	public void setUpdateDate(LocalDateTime updateDate) {
 		this.updateDate = updateDate;
+	}
+	public Geo getGeo() {
+		return geo;
+	}
+	public void setGeo(Geo geo) {
+		this.geo = geo;
 	}
 	
 	

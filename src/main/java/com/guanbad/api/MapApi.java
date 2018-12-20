@@ -19,9 +19,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.guanbad.exception.ServiceException;
 import com.guanbad.google.map.model.Places;
 import com.guanbad.google.map.model.Result;
 import com.guanbad.model.Court;
+import com.guanbad.model.Geo;
+import com.guanbad.model.Member;
+import com.guanbad.services.CrudService;
 
 
 @Controller
@@ -30,10 +34,10 @@ public class MapApi {
 
 	@Autowired
 	RestTemplate restTemplate;
-	
+	@Autowired
+	private CrudService<Court> court;
 	@Value( "${google.map.key}" )
 	private String mapkey;
-	
 
 	@RequestMapping(value = "/court", method = { RequestMethod.GET })
 	@ResponseBody
@@ -57,14 +61,24 @@ public class MapApi {
 		ArrayList<Court> list = new ArrayList<Court>();
 		if (response.getBody().getResults() != null) {
 			for (Result p : response.getBody().getResults()) {
+				Geo geo = new Geo();
 				Court e = new Court();
 				e.setName(p.getName());
-				e.setLat(p.getGeometry().getLocation().getLat());
-				e.setLng(p.getGeometry().getLocation().getLng());
+				//e.setLat(p.getGeometry().getLocation().getLat());
+				//e.setLng(p.getGeometry().getLocation().getLng());
+				geo.setLat(p.getGeometry().getLocation().getLat());
+				geo.setLon(p.getGeometry().getLocation().getLng());
+				e.setGeo(geo);
 				e.setPlaceId(p.getPlaceId());
 				e.setRating(p.getRating());
 				e.setVicinity(p.getVicinity());
 				e.setIcon(p.getIcon());
+				try {
+					court.create(e);
+				} catch (ServiceException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				list.add(e);
 			}
 		}
