@@ -15,20 +15,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.guanbad.exception.ServiceException;
 import com.guanbad.model.Court;
-import com.guanbad.services.CrudService;
+import com.guanbad.services.CourtServiceImpl;
 
 @Controller
 @RequestMapping("/api/court")
 public class CourtApi {
 
 	@Autowired
-	private CrudService<Court> service;
+	private CourtServiceImpl service;
 
 	@RequestMapping(value = "/list", method = { RequestMethod.GET })
 	@ResponseBody
 	public List<Court> list() throws  ServiceException {
 		ArrayList<Court> list = new ArrayList<Court>();
-		for (Court m : service.list()) {
+		for (Court m : service.searchByGeo(13.6737212,100.4924339,6)) {
 			list.add(m);
 		}
 		return list;
