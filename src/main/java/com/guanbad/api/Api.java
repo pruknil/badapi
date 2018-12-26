@@ -44,7 +44,7 @@ public class Api {
 		e.setStarttime(Calendar.getInstance());
 		Court court = new Court();
 		court.setVicinity("ABC def ghi");
-		e.setCourt(court);
+		//e.setCourt(court);
 		return e;
 	}
 }

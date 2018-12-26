@@ -1,7 +1,9 @@
 package com.guanbad.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -24,7 +26,11 @@ public class Team implements Serializable {
 	private String facebook;
 	private Calendar starttime;
 	private String picture;
-	private Court court;
+	private String thbUrl;
+	private LocalDate thbLastUpd;
+	private List<ActiveDay> activeDay;
+	
+	
 	public String getName() {
 		return name;
 	}
@@ -43,12 +49,7 @@ public class Team implements Serializable {
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
-	public Court getCourt() {
-		return court;
-	}
-	public void setCourt(Court court) {
-		this.court = court;
-	}
+
 	public ObjectId get_id() {
 		return _id;
 	}
@@ -79,5 +80,24 @@ public class Team implements Serializable {
 	public void setFacebook(String facebook) {
 		this.facebook = facebook;
 	}
+	public String getThbUrl() {
+		return thbUrl;
+	}
+	public void setThbUrl(String thbUrl) {
+		this.thbUrl = thbUrl;
+	}
+	public LocalDate getThbLastUpd() {
+		return thbLastUpd;
+	}
+	public void setThbLastUpd(LocalDate thbLastUpd) {
+		this.thbLastUpd = thbLastUpd;
+	}
+	public List<ActiveDay> getActiveDay() {
+		return activeDay;
+	}
+	public void setActiveDay(List<ActiveDay> activeDay) {
+		this.activeDay = activeDay;
+	}
+
 	
 }

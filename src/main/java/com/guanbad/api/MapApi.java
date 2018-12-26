@@ -77,7 +77,7 @@ public class MapApi {
 					court.create(e);
 				} catch (ServiceException e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					//e1.printStackTrace();
 				}
 				list.add(e);
 			}

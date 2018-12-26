@@ -1,8 +1,17 @@
 package com.guanbad.api;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +32,28 @@ public class TeamApi {
 
 	@Autowired
 	private CrudService<Team> service;
+	@RequestMapping(value = "/import", method = { RequestMethod.GET })
+	@ResponseBody
+	public List<Team> doImport() throws IOException {
 
+		//ArrayList<Team> list = new ArrayList<Team>();
+    	for(int i=0;i<2;i++) {
+    		ArrayList<Team> response = fetch("2",i*50);
+
+		if (response  != null) {
+			for (Team p : response) {
+				try {
+					service.create(p);
+				} catch (ServiceException e1) {
+					// TODO Auto-generated catch block
+					//e1.printStackTrace();
+				}
+				//list.add(p);
+			}
+    	}
+		}
+		return null;
+	}
 	@RequestMapping(value = "/list", method = { RequestMethod.GET })
 	@ResponseBody
 	public List<Team> list() throws  ServiceException {
@@ -63,5 +93,52 @@ public class TeamApi {
 			return new ResponseEntity<>("Team is updated fail", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	
+    private ArrayList<Team> fetch(String forum,int start) throws IOException {
+        String url = "http://www.thaibadminton.com/main/modules/newbb_plus/viewforum.php?start="+start+"&forum="+forum;
+       // print("Fetching %s...", url);
+        ArrayList<Team> response = new ArrayList<>();
+        Document doc = Jsoup.connect(url).get();
+        Elements links = doc.select("a[href]");
+
+      //print("\nLinks: (%d)", links.size());
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+      LocalDate localDate = LocalDate.now();
+      for (Element link : links) {
+    	
+    	  String str = link.text();
+    	  if(str.matches(".*\\d{2}:\\d{2}$")) {
+    		  if(str.startsWith("เมื่อวาน")) {
+    			 str = localDate.minusDays(1).atTime(0, 0).format(formatter);
+    		  }else if(str.startsWith("วันนี้")) {
+    			  str = localDate.atTime(0, 0).format(formatter);
+    		  }
+
+    		  if(str.length() ==16) {
+    			  Node bb = link.parent().parent().childNode(2).childNode(2).childNode(0);
+ 	    		 LocalDate txtDate = LocalDate.parse(str, formatter);
+  	    	  long months = ChronoUnit.MONTHS.between(localDate, txtDate);
+  	    	// System.out.println(months);
+  	    	  if(!bb.toString().contains("หา") && !bb.toString().contains("รับสมัคร")&& !bb.toString().contains("ไหมครับ")) {
+  	    		  Team e = new Team();
+  	    		 e.setThbUrl(link.parent().parent().childNode(2).childNode(2).attr("abs:href"));
+  	    		  e.setName(bb.toString());
+  	    		  e.setThbLastUpd(txtDate);
+  	    		response.add(e);
+    			  print("<%s>  (%s) {%s}", link.parent().parent().childNode(2).childNode(2).attr("abs:href"), bb,months);  
+  	    	  }
+
+    		  }
+
+    	  }
+          
+      }
+      return response;
+    }
+    private void print(String msg, Object... args) {
+        System.out.println(String.format(msg, args));
+    }
 
 }

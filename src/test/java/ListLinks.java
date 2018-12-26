@@ -14,35 +14,21 @@ import org.jsoup.select.Elements;
  */
 public class ListLinks {
     public static void main(String[] args) throws IOException {
-       // Validate.isTrue(args.length == 1, "usage: supply url to fetch");
-        String url = "http://www.thaibadminton.com/main/modules/newbb_plus/viewforum.php?forum=3";
-        print("Fetching %s...", url);
+    	for(int i=0;i<5;i++) {
+        	fetch("2",i*50);
+    	}
+
+    	//fetch("3",0);
+    }
+
+    private static void fetch(String forum,int start) throws IOException {
+        String url = "http://www.thaibadminton.com/main/modules/newbb_plus/viewforum.php?start="+start+"&forum="+forum;
+       // print("Fetching %s...", url);
 
         Document doc = Jsoup.connect(url).get();
         Elements links = doc.select("a[href]");
-        Elements media = doc.select("[src]");
-        Elements imports = doc.select("link[href]");
-//
-//        print("\nMedia: (%d)", media.size());
-//        for (Element src : media) {
-//            if (src.tagName().equals("img"))
-//                print(" * %s: <%s> %sx%s (%s)",
-//                        src.tagName(), src.attr("abs:src"), src.attr("width"), src.attr("height"),
-//                        trim(src.attr("alt"), 20));
-//            else
-//                print(" * %s: <%s>", src.tagName(), src.attr("abs:src"));
-//        }
-//
-//        print("\nImports: (%d)", imports.size());
-//        for (Element link : imports) {
-//            print(" * %s <%s> (%s)", link.tagName(),link.attr("abs:href"), link.attr("rel"));
-//        }
-//
-//        print("\nLinks: (%d)", links.size());
-//        for (Element link : links) {
-//            print(" * a: <%s>  (%s)", link.attr("abs:href"), trim(link.text(), 35));
-//        }
-      print("\nLinks: (%d)", links.size());
+
+      //print("\nLinks: (%d)", links.size());
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
       LocalDate localDate = LocalDate.now();
@@ -57,24 +43,30 @@ public class ListLinks {
     		  }
 
     		  if(str.length() ==16) {
-    			  Node bb = link.parent().parent().childNode(2);
-    			  System.out.println(bb.childNode(2).childNode(0).toString());
-    	    		 LocalDate txtDate = LocalDate.parse(str, formatter);
+    			  Node bb = link.parent().parent().childNode(2).childNode(2).childNode(0);
+ 	    		 LocalDate txtDate = LocalDate.parse(str, formatter);
+  	    	  long months = ChronoUnit.MONTHS.between(localDate, txtDate);
+  	    	// System.out.println(months);
+  	    	  if(!bb.toString().contains("หา") && !bb.toString().contains("รับสมัคร")&& !bb.toString().contains("ไหมครับ")) {
+  	    		  
+    			  print("<%s>  (%s) {%s}", link.parent().parent().childNode(2).childNode(2).attr("abs:href"), bb,months);  
+  	    	  }
+
+
     	    		 //System.out.println(localDate.until(txtDate));
 //    	    		 Period period = Period.between(localDate, txtDate);
 //    	    	        System.out.print(period.getYears() + " years,");
 //    	    	        System.out.print(period.getMonths() + " months,");
 //    	    	        System.out.print(period.getDays() + " days");
-    	    	        long months = ChronoUnit.MONTHS.between(localDate, txtDate);
-    	    	      System.out.println(months);
-    	    		  print(" * a: <%s>  (%s)", link.attr("abs:href"), trim(str, 350));
+    	    	    //    long months = ChronoUnit.MONTHS.between(localDate, txtDate);
+    	    	    //  System.out.println(months);
+    	    		 // print(" * a: <%s>  (%s)", link.attr("abs:href"), trim(str, 350));
     		  }
 
     	  }
           
       }
     }
-
     private static void print(String msg, Object... args) {
         System.out.println(String.format(msg, args));
     }
